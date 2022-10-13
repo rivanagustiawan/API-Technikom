@@ -3,7 +3,7 @@ package portofolio
 type Service interface {
 	GetPortofolios() ([]Portofolio, error)
 	GetPortofolio(input GetIdPorto) (Portofolio, error)
-	CreatePortofolio(input PortofolioInput) (Portofolio, error)
+	CreatePortofolio(input PortofolioInput, path string, path2 string, path3 string, path4 string) (Portofolio, error)
 	UpdatePortofolio(inputID GetIdPorto, input PortofolioInput) (Portofolio, error)
 	DeletePortofolio(input GetIdPorto)
 }
@@ -36,17 +36,17 @@ func (s *service) GetPortofolio(input GetIdPorto) (Portofolio, error) {
 
 }
 
-func (s *service) CreatePortofolio(input PortofolioInput) (Portofolio, error) {
+func (s *service) CreatePortofolio(input PortofolioInput, path string, path2 string, path3 string, path4 string) (Portofolio, error) {
 	porto := Portofolio{}
 	porto.NamaApps = input.NamaApps
 	porto.Id_Klien = input.Id_Klien
 	porto.JenisPaket = input.JenisPaket
 	porto.LinkApps = input.LinkApps
 	porto.DeskripsiApps = input.DeskripsiApps
-	porto.PhotoApps1 = input.PhotoApps1
-	porto.PhotoApps2 = input.PhotoApps2
-	porto.PhotoApps3 = input.PhotoApps3
-	porto.PhotoApps4 = input.PhotoApps4
+	porto.PhotoApps1 = path
+	porto.PhotoApps2 = path2
+	porto.PhotoApps3 = path3
+	porto.PhotoApps4 = path4
 
 	newPorto, err := s.repository.Save(porto)
 	if err != nil {
@@ -66,10 +66,10 @@ func (s *service) UpdatePortofolio(inputID GetIdPorto, input PortofolioInput) (P
 	porto.JenisPaket = input.JenisPaket
 	porto.LinkApps = input.LinkApps
 	porto.DeskripsiApps = input.DeskripsiApps
-	porto.PhotoApps1 = input.PhotoApps1
-	porto.PhotoApps2 = input.PhotoApps2
-	porto.PhotoApps3 = input.PhotoApps3
-	porto.PhotoApps4 = input.PhotoApps4
+	// porto.PhotoApps1 = input.PhotoApps1
+	// porto.PhotoApps2 = input.PhotoApps2
+	// porto.PhotoApps3 = input.PhotoApps3
+	// porto.PhotoApps4 = input.PhotoApps4
 
 	updatePorto, err := s.repository.Update(porto)
 	if err != nil {

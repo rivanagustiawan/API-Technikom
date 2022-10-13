@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"net/http"
 	"technikom/klien"
 
@@ -50,17 +51,32 @@ func (h *klienHandler) GetKlien(c *gin.Context) {
 }
 
 func (h *klienHandler) CreateKlien(c *gin.Context) {
+	file, err := c.FormFile("picLogo")
+	if err != nil {
+
+		c.JSON(http.StatusBadRequest, err.Error())
+		return
+	}
+
+	path := fmt.Sprintf("images/%s", file.Filename)
+
+	err = c.SaveUploadedFile(file, path)
+	if err != nil {
+
+		c.JSON(http.StatusBadRequest, err.Error())
+		return
+	}
 
 	var input klien.KlienInput
 
-	err := c.ShouldBindJSON(&input)
+	err = c.ShouldBind(&input)
 	if err != nil {
 
 		c.JSON(http.StatusUnprocessableEntity, err.Error())
 		return
 	}
 
-	newKlien, err := h.klienService.CreateKlien(input)
+	newKlien, err := h.klienService.CreateKlien(input, path)
 	if err != nil {
 
 		c.JSON(http.StatusBadRequest, err.Error())
@@ -71,25 +87,41 @@ func (h *klienHandler) CreateKlien(c *gin.Context) {
 }
 
 func (h *klienHandler) UpdateKlien(c *gin.Context) {
-	var inputID klien.GetIdKlien
-
-	err := c.ShouldBindUri(&inputID)
+	file, err := c.FormFile("picLogo")
 	if err != nil {
 
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
-	var input klien.KlienInput
+	path := fmt.Sprintf("images/%s", file.Filename)
 
-	err = c.ShouldBindJSON(&input)
+	err = c.SaveUploadedFile(file, path)
+	if err != nil {
+
+		c.JSON(http.StatusBadRequest, err.Error())
+		return
+	}
+
+	var inputID klien.GetIdKlien
+
+	err = c.ShouldBindUri(&inputID)
+	if err != nil {
+
+		c.JSON(http.StatusBadRequest, err.Error())
+		return
+	}
+
+	var input klien.KlienInputUpdate
+
+	err = c.ShouldBind(&input)
 	if err != nil {
 
 		c.JSON(http.StatusUnprocessableEntity, err.Error())
 		return
 	}
 
-	updateKlien, err := h.klienService.UpdateKlien(inputID, input)
+	updateKlien, err := h.klienService.UpdateKlien(inputID, input, path)
 	if err != nil {
 
 		c.JSON(http.StatusBadRequest, err)

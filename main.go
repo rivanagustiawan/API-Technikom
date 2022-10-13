@@ -53,7 +53,7 @@ func main() {
 	api.GET("/portofolio", portofolioHandler.GetPortofolios)
 	api.GET("/portofolio/:id", portofolioHandler.GetPortofolio)
 
-	api.POST("/pakets", paketHandler.CreatePaket)
+	api.POST("/paket", paketHandler.CreatePaket)
 	api.POST("/paket/deskripsi", paketHandler.CreateDeskPaket)
 	api.POST("/klien", klienHandler.CreateKlien)
 	api.POST("/portofolio", portofolioHandler.CreatePorto)
