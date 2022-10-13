@@ -1,5 +1,7 @@
 package klien
 
+import "time"
+
 type Service interface {
 	GetKliens() ([]Klien, error)
 	GetKlien(input GetIdKlien) (Klien, error)
@@ -40,6 +42,8 @@ func (s *service) CreateKlien(input KlienInput, path string) (Klien, error) {
 	klien := Klien{}
 	klien.NamaKlien = input.NamaKlien
 	klien.PicLogo = path
+	klien.CreatedAt = time.Now()
+	klien.UpdatedAt = time.Now()
 
 	newKlien, err := s.repository.Save(klien)
 	if err != nil {
@@ -55,7 +59,9 @@ func (s *service) UpdateKlien(inputID GetIdKlien, input KlienInputUpdate, path s
 		return klien, err
 	}
 	klien.NamaKlien = input.NamaKlien
-	// klien.PicLogo = input.PicLogo
+	klien.PicLogo = path
+	klien.CreatedAt = time.Now()
+	klien.UpdatedAt = time.Now()
 
 	updateKlien, err := s.repository.Update(klien)
 	if err != nil {

@@ -14,6 +14,7 @@ import (
 )
 
 func main() {
+
 	dsn := "root:root@tcp(127.0.0.1:8889)/apicms?charset=utf8mb4&parseTime=True&loc=Local"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
