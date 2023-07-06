@@ -8,6 +8,7 @@ import (
 	"technikom/portofolio"
 	"technikom/user"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -44,6 +45,13 @@ func main() {
 	router := gin.Default()
 
 	api := router.Group("/api/v1")
+	api.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"https://google.com"},
+		AllowMethods:     []string{"PUT", "PATCH", "GET", "POST", "DELETE"},
+		AllowHeaders:     []string{"Origin"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+	}))
 
 	api.GET("/users", userHandler.GetUser)
 
